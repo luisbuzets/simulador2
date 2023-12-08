@@ -1,0 +1,213 @@
+
+   * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .inputDiv {
+    width: 90%;
+    margin: 100px auto;
+    position: relative;
+  }
+  
+  input[type='range'] {
+    display: block;
+    width: 100%;
+  }
+  
+  input[type='range']:focus {
+    outline: none;
+  }
+  
+  input[type='range'],
+  input[type='range']::-webkit-slider-runnable-track,
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+  
+  input[type=range]::-webkit-slider-thumb {
+    background-color: #ddd;
+    width: 21px;
+    height: 21px;
+    border: 5px solid #EF0000;
+    border-radius: 50%;
+    margin-top: -9px;
+  }
+  
+  input[type=range]::-moz-range-thumb {
+    background-color: #EF0000;
+    width: 16px;
+    height: 16px;
+    border: 3px solid #ddd;
+    border-radius: 50%;
+  }
+  
+  input[type=range]::-ms-thumb {
+    background-color: #EF0000;
+    width: 21px;
+    height: 21px;
+    border: 5px solid #ddd;
+    border-radius: 50%;
+  }
+  
+  input[type=range]::-webkit-slider-runnable-track {
+    background-color: #333;
+    height: 10px;
+    -webkit-appearance: none;
+    background-image:linear-gradient(to right, #EF0000 calc(var(--value)*1%), #EEEEEE 0);
+    border-radius: 50px;
+  }
+  
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    outline: none;
+  }
+  
+  input[type=range]::-moz-range-track {
+    -webkit-appearance: none;
+    background-image:linear-gradient(to right, #EF0000 calc(var(--value)*1%), #EEEEEE 0);
+    height: 5px;
+  }
+  
+  input[type=range]::-ms-track {
+    background-color: #777;
+    height: 3px;
+  }
+  
+  .etiqueta {
+    width: 30px;
+    height: 26px;
+    position: absolute;
+    z-index: 9;
+    background-color: #EF0000;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 7px;
+    top: -45px;
+  }
+  
+  .etiqueta:after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    z-index: 8;
+    background-color: #EF0000;
+    position: relative;
+    left: 9px;
+  }
+
+
+  
+  .form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 4px solid #ced4da;
+    border-radius: 0.75rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn-primary {
+    color: #fff!important;
+    background-color: #ef0000!important;
+    border-color: #252627!important;
+}
+
+.btn-secondary {
+    color: #fff!important;
+    background-color: #6c757d!important;
+    border-color: #6c757d!important;
+}
+.btn {
+    display: inline-block;
+    width: 260px;
+    height: 58px;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+
+
+.lbl{
+    display: inline-block;
+    width: 65px;
+    height: 33px;
+    background: #979797;
+    border-radius: 100px;
+    cursor: pointer;
+    position: relative;
+    transition: .2s;
+  }
+   
+  .lbl::after{
+    content: '';
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: #eee;
+    border-radius: 100px;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: .2s;
+  }
+   
+  #control_quarantine:checked + .lbl::after{
+    left: 36px;
+  }
+   
+  #control_quarantine:checked + .lbl{
+    background: #EF0000;
+  }
+   
+  #control_quarantine{
+    display: none;
+  }
+
+
+#botones{
+
+    margin-top: 10%;
+    margin-left: 30%;
+}
+#contenido{
+
+    margin-top: 5.5rem!important;
+}
+
+.row1 {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    /* flex-wrap: wrap; */
+    margin-right: -15px;
+    margin-left: -15px;
+    justify-content: space-around;
+}

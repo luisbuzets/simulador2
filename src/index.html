@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="../images/virus.png">
+  <title>SimulaVirus</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="./plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="shortcut icon" type="image/svg"
+    href="./images/iconfinder_virus-cell-life-biology-Microorganism_5859167.svg" />
+    <link rel="stylesheet" href="plugins/bootstrap/css/style.css" class="href">
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .footer {
+      background-color: #f5f5f5;
+    }
+  </style>
+  <!-- Custom styles for this template -->
+  <script src="https://unpkg.com/konva@4.2.2/konva.min.js"></script>
+  <script src="./plugins/chartjs/dist/Chart.js"></script>
+</head>
+
+<body>
+  <main role="main" class="container mt-4" id="contenido">
+    <div id="simulator" class="mb-4">
+      <div class="row" style="display: flex; justify-content: center;">
+        <h1 data-translate="title">SimulaVirus</h1>
+      </div>
+      <br>
+      <br>
+      <div class="row" style="display: flex; justify-content: space-around;">
+        <div class="alert alert-success col-sm-2" role="alert">
+          <span data-translate="infected">Infectados:</span><br><br><span id="total_infected"></span> 
+        </div>
+        
+
+        <!---------------------------------------------------------------->
+        <div class="alert alert-light border border-dark col-sm-2" role="alert">
+          <span data-translate="healthy">Saludables:</span><br><br><span id="total_healthy"></span> 
+        </div>
+        <div class="alert alert-primary col-sm-2" role="alert">
+          <span data-translate="cured">Curados:</span><br><br><span id="total_immune"></span>
+        </div>
+        <div class="alert alert-dark col-sm-3" role="alert">
+          <span data-translate="dead">Muertes: </span><br> <span id="total_dead"></span> 
+          <span data-translate="of_which">de los cuales</span> <span id="total_dead_for_intensive_care"></span> <span data-translate="for_missing_beds">por faltas de camas en cuidados intensivos</span><br>
+        </div>
+
+          <div class="alert alert-warning col-sm-2" role="alert">
+            <span data-translate="vaccinated">Vacunados:</span><br><br>
+            <span id="total_vaccinated"></span>
+            <span id="total_vaccinated"></span> 
+          </div>
+    
+
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-6">
+          <div id="stage_container" class="border rounded border-dark" style="min-height: 500px;"></div>
+        </div>
+        <div class="col-sm-6">
+          <canvas id="chart" width="400" height="400">Your browser is not compatible</canvas>
+        </div>
+      </div>
+      <div class="row1">
+        <div class="col-sm-4">
+          <h6><span data-translate="quarantine">Cuarentena</span> (<span id="total_in_quarantine"></span> <span data-translate="people">Personas</span>)</h6>
+          <div id="stage_quarantine_container" class="border rounded border-dark" style="min-height: 118px;"></div>
+        </div>
+        <div class="col-sm-4">
+          <h6><span data-translate="intensive_care">Cuidados Intensivos</span> (<span id="total_in_intensive_care"></span> / <span id="max_total_in_intensive_care"></span> <span data-translate="people">Personas</span>)</h6>
+          <div id="stage_intensive_care_container" class="border rounded border-dark" style="min-height: 118px;"></div>
+        </div>
+        <div class="col-sm-4">
+          <h6><span data-translate="Dead">Muertes</span></h6>
+          <div id="stage_dead_container" class="border rounded border-dark" style="min-height: 118px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="justify-content: center;">
+      <h1><span data-translate="simulation_parameters">Parametros de SimulaVirus</span></h1>
+      <br>
+      <br>
+      <br>
+    </div>
+
+    <div class="row mb-5">
+      <form class="col-sm-12" id="control_form">
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label for="control_initial_population" data-translate="simulation_initial_population">Poblacion Inicial</label>
+            <input type="number" id="control_initial_population" class="form-control" aria-describedby="control_initial_population_help">
+            <small id="control_initial_population_help" class="form-text text-muted" data-translate="simulation_initial_population_help">
+              Numero de Personas
+            </small>
+          </div>
+          <div class="col-sm-4">
+            <label for="control_initial_infected" data-translate="simulation_initial_infected">Infectados Iniciales</label>
+            <input type="number" id="control_initial_infected" class="form-control" aria-describedby="control_initial_infected_help">
+            <small id="control_initial_infected_help" class="form-text text-muted" data-translate="simulation_initial_infected_help">
+              Numeros de infectados al comenzar.
+            </small>
+          </div>
+          <div class="col-sm-4">
+            <label for="control_people_speed" data-translate="simulation_people_speed">Velocidad de la gente</label>
+            <input type="range" id="control_people_speed" class="form-control-range" aria-describedby="control_people_speed_help" value="60" min="0" max="100" autocomplete="off">
+            <small id="control_people_speed_help" class="form-text text-muted" data-translate="simulation_people_speed_help">
+              Velocidad en la que la gente se mueve.<br>
+              Disminúya para simular el bloqueo
+            </small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label for="control_desease_duration" data-translate="simulation_desease_duration">Duración de la epidemia</label>
+            <input type="number" id="control_desease_duration" class="form-control" aria-describedby="control_desease_duration_help">
+            <small id="control_desease_duration_help" class="form-text text-muted" data-translate="simulation_desease_duration_help">
+              Cuantos dias antes de morir o sanar
+            </small>
+          </div>
+          <div class="col-sm-4">
+            <label for="control_infection_rate"><span data-translate="simulation_infection_rate">Tasa de infección</span>: <span id="control_infection_rate_text"></span>%</label>
+            <input type="range" id="control_infection_rate" class="form-control-range" aria-describedby="control_infection_rate_help" value="20" min="0" max="100" autocomplete="off">
+            <small id="control_infection_rate_help" class="form-text text-muted" data-translate="simulation_infection_rate_help">
+              La probabilidad de que un infectado contagie a otra persona cercana
+            </small>
+          </div>
+          <div class="col-sm-4">
+            <label for="control_lethality_rate"><span data-translate="simulation_lethality">Letalidad</span>: <span id="control_lethality_rate_text"></span>%</label>
+            <input type="range" id="control_lethality_rate" class="form-control-range" aria-describedby="control_lethality_rate_help" value="2" min="0" max="100" autocomplete="off">
+            <small id="control_lethality_rate_help" class="form-text text-muted" data-translate="simulation_lethality_help">
+              La probabilidad de que muera un infectado
+            </small>
+          </div>
+        </div>
+        <div class="form-group row">
+          
+
+          <div class="col-sm-4">
+            <label for="control_desease_duration" data-translate="simulation_days_before_quarantine">Días antes de la cuarentena</label>
+            <input type="number" id="control_days_to_quarantine" class="form-control" aria-describedby="control_desease_duration_help">
+            <small id="control_desease_duration_help" class="form-text text-muted" data-translate="simulation_days_before_quarantine_help">
+              Cuantos días antes de presentar síntomas y entrar en cuarentena
+            </small>
+          </div>
+          <div class="col-sm-4">
+            <label for="control_asymptomatic_rate"><span data-translate="simulation_asymptomatic_rate">Tasa asintomática</span>: <span id="control_asymptomatic_rate_text"></span>%</label>
+            <input type="range" id="control_asymptomatic_rate" class="form-control-range" aria-describedby="control_asymptomatic_rate_help" value="10" min="0" max="100" autocomplete="off">
+            <small id="control_asymptomatic_rate_help" class="form-text text-muted" data-translate="simulation_asymptomatic_rate_help">
+              ¿Cuántas, entre las personas que contraen el virus, no van a la cuarentena (tal vez por no presentar síntomas)?
+            </small>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="custom-control custom-switch" style="display: flex; justify-content:space-around;">
+              
+              <input type="checkbox" class="custom-control-input" id="control_quarantine">
+              <label class="lbl" for="control_quarantine" data-translate="simulation_activate_quarantine"></label>
+              <b>Activar cuarentena</b>
+
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <label for="control_intensive_care_rate"><span data-translate="simulation_icu_rate">Tasa de cuidados intensivos</span>: <span id="control_intensive_care_rate_text"></span>%</label>
+            <input type="range" id="control_intensive_care_rate" class="form-control-range" aria-describedby="control_intensive_care_rate_help" value="20" min="0" max="100" autocomplete="off">
+            <small id="control_intensive_care_rate_help" class="form-text text-muted" data-translate="simulation_icu_rate_help">
+              ¿Cuántas personas, entre las que contraen el virus, necesitan cuidados intensivos para no morir?
+            </small>
+          </div>
+          <div class="col-sm-4">
+            <label for="control_intensive_care_beds" data-translate="simulation_icu_every_100">Número de camas en CI cada 100 personas</label>
+            <input type="number" id="control_intensive_care_beds" class="form-control" aria-describedby="control_intensive_care_beds_help">
+            <small id="control_intensive_care_beds_help" class="form-text text-muted" data-translate="simulation_icu_every_100_help">
+              Ej.: si hay 2 camas para 200 personas, poner "1" (1 cama cada 100 personas).<br>Si no hay camas disponibles, las personas que necesitan UCI morirán
+            </small>
+          </div>
+        </div>
+        <div id="botones"> 
+        <button type="button" class="btn btn-secondary" id="control_stop" data-translate='stop_simulation'>Detener simulación</button>
+        <button type="button" class="btn btn-primary" id="control_start" data-translate='start_simulation'>Iniciar simulación</button>
+      </div>
+      </form>
+    </div>
+
+  </main>
+  <script src="./plugins/epidemic/stile.js"></script>
+  <script src="./plugins/bootstrap/js/jquery-3.4.1.min.js"></script>
+  <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+  <script src="./plugins/epidemic/header.js"></script>
+  <script src="./plugins/epidemic/index.js"></script>
+  <script src="./plugins/epidemic/listeners.js?20200415"></script>
+  <script src="./plugins/epidemic/chart.js"></script>
+  
+  <!--<script src="./plugins/translator/translator.js?20200418"></script>-->
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-32794172-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-32794172-8');
+  </script>
+
+</html>
